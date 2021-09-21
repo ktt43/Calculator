@@ -1,6 +1,6 @@
 #container {
     display: grid;
-    grid-template: "display display display display" 40px
+    grid-template: "display display display operators" 40px
                     "number number number operators" 40px /1fr 1fr 1fr 1fr;
                     /* "number number number operators"
                     "number number number operators"; */
@@ -9,6 +9,7 @@
    width: 50%;
    margin-left: auto;
    margin-right: auto;
+   gap: 10px;
 }
 
 #display {
@@ -20,13 +21,17 @@
     grid-area:operators;
     display:flex;
     flex-direction: column;
-    background-color:blue;
+    /* background-color:blue; */
+    gap:5px;
+    width: 50%;
+    /* height: 10px; */
 }
 #numbers {
     grid-area:number;
-    background-color:yellow;
+    /* background-color:yellow; */
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
+    gap:5px;
      
 }
 
@@ -38,4 +43,3 @@
     height: 100%;
     
 }
-
