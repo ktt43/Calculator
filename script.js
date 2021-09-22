@@ -7,12 +7,13 @@ let currentNumOne;
 let currentNumTwo;
 let currentOperator;
 
+
+// null == 0
 function add(x,y){
     if(x+y!=undefined){
         return x+y;
     }
-
-    return null;
+    return 0;
 }
 
 function subtract(x,y){
@@ -56,7 +57,6 @@ function updateDisplay(e){
     displayArea.value=display;
 
 }
-
 
 
 selectedNumber.forEach(num => num.addEventListener('click', updateDisplay));
