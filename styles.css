@@ -14,8 +14,15 @@
 
 #display {
     grid-area:display;
-    background-color: red;
-
+    border: solid 1px;
+    text-align: right;
+    /* padding-bottom: 10px; */
+}
+#output{
+    margin: 0;
+}
+#history{
+    margin: 0;
 }
 #operators{
     grid-area:operators;

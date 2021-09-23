@@ -1,11 +1,15 @@
-const selectedNumber = document.querySelectorAll(".digit");
+// const numOne = document.querySelectorAll(".digit");
 const displayArea = document.querySelector("#output");
+const displayHistory = document.querySelector("#history");
 const clear = document.querySelector("#clear");
+const history = document.querySelector("#history");
+const addButton = document.querySelector("#plus");
+const subtractButton = document.querySelector("#substract");
 
-let display="";
-let currentNumOne;
-let currentNumTwo;
-let currentOperator;
+let numOne=null;
+let numTwo=null;
+let result=null;
+let currentOperator=null;
 
 
 // null == 0
@@ -41,24 +45,44 @@ function operate(operator,x,y){
 
 
 function clearAll(e){
-    currentNumOne=null;
-    currentNumTwo=null;
+    numOne=null;
+    numTwo=null;
+    result=null
     currentOperator=null;
-    display="";
-    displayArea.value=display;
+    displayHistory.textContent=0;
+    displayArea.textContent=null;
 }
 
 
-function updateDisplay(e){
-    // console.log(e.target.value);
-    display=display+""+e.target.value;
-    // console.log(display);
-    currentNumOne=display;
-    displayArea.value=display;
+// function updateDisplay(){
+//     numOne = displayArea.textContent;
+//     console.log(numOne);
+// }
 
+function updateHistory(){
+    displayHistory.textContent= result +currentOperator+numOne;
 }
 
+function addOperation(e){
+    currentOperator="add";
+    updateHistory();
+}
 
-selectedNumber.forEach(num => num.addEventListener('click', updateDisplay));
+function getSelected(e){
+    // console.log(e.target);
+    if(e.target.className == "digit"){
+        displayArea.textContent = displayArea.textContent+""+e.target.value;
+    }
+
+    if(e.target.id == "plus"){
+        
+    }
+
+    numOne=displayArea.textContent;
+    console.log(numOne);
+    
+}
+
+window.addEventListener('click',getSelected);
 clear.addEventListener('click',clearAll);
-// selectedNumber.addEventListener('click', perform);
+addButton.addEventListener('click',addOperation);
