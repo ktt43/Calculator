@@ -1,10 +1,11 @@
-// const numOne = document.querySelectorAll(".digit");
+
 const displayArea = document.querySelector("#output");
 const displayHistory = document.querySelector("#history");
-const clear = document.querySelector("#clear");
+const clearButton = document.querySelector("#clear");
 const history = document.querySelector("#history");
-const addButton = document.querySelector("#plus");
-const subtractButton = document.querySelector("#substract");
+
+const numberButtons = document.querySelectorAll(".digit");
+const operatorButtons = document.querySelectorAll(".operator");
 
 let numOne=null;
 let numTwo=null;
@@ -13,7 +14,7 @@ let currentOperator=null;
 
 
 // null == 0
-function add(x,y){
+function plus(x,y){
     if(x+y!=undefined){
         return x+y;
     }
@@ -51,38 +52,60 @@ function clearAll(e){
     currentOperator=null;
     displayHistory.textContent=0;
     displayArea.textContent=null;
+    temp=""
 }
 
-
-// function updateDisplay(){
-//     numOne = displayArea.textContent;
-//     console.log(numOne);
-// }
-
-function updateHistory(){
-    displayHistory.textContent= result +currentOperator+numOne;
+clearButton.addEventListener('click',clearAll);
+let temp="";
+// When Clicking ON Numbers; Updates the Display Area
+function updateDisplay(e){
+    displayArea.textContent=displayArea.textContent + e.target.value;    
+    if(numOne != null && currentOperator != null && numTwo==null){
+        displayArea.textContent=null;
+        temp= temp +displayArea.textContent + e.target.value;
+        console.log(temp);
+        displayArea.textContent=temp;
+    }
 }
 
-function addOperation(e){
-    currentOperator="add";
-    updateHistory();
-}
+numberButtons.forEach(num=> num.addEventListener('click',updateDisplay));
 
-function getSelected(e){
-    // console.log(e.target);
-    if(e.target.className == "digit"){
-        displayArea.textContent = displayArea.textContent+""+e.target.value;
+
+function setOperands(e){
+    if(e.target.id != "equal"){
+        currentOperator = e.target.id;
+    }
+    if(numOne==null){
+        if(isNaN(parseInt(displayArea.textContent))){
+            numOne=0;
+        } else {
+        numOne = parseInt(displayArea.textContent);
+        }
+        // displayArea.textContent=null;
+        return;
+    }
+    if(numTwo==null){     
+
+        numTwo= parseInt(displayArea.textContent);
+        displayArea.textContent=null;
     }
 
-    if(e.target.id == "plus"){
-        
+    // console.log(!isNaN(numTwo));
+
+    if(!isNaN(numOne) && !isNaN(numTwo)){
+       console.log(numOne+ ":" + numTwo);
+        //console.log(e.target.id);
+        console.log(currentOperator);
+        result = operate(window[currentOperator],numOne,numTwo);
+        displayArea.textContent=result;
+
+        numOne=parseInt(result);
+        numTwo=null;
+        result=null;
+        // console.log(result);
     }
-
-    numOne=displayArea.textContent;
-    console.log(numOne);
-    
 }
+operatorButtons.forEach(operator => operator.addEventListener('click', setOperands));
 
-window.addEventListener('click',getSelected);
-clear.addEventListener('click',clearAll);
-addButton.addEventListener('click',addOperation);
+
+
