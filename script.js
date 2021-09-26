@@ -12,6 +12,7 @@ let numTwo=null;
 let result=null;
 let currentOperator=null;
 
+let onSecond=false;
 
 // null == 0
 function plus(x,y){
@@ -52,58 +53,75 @@ function clearAll(e){
     currentOperator=null;
     displayHistory.textContent=0;
     displayArea.textContent=null;
-    temp=""
+    tempDisplay=""
+    onSecond=false;
 }
 
 clearButton.addEventListener('click',clearAll);
-let temp="";
+let tempDisplay="";
 // When Clicking ON Numbers; Updates the Display Area
 function updateDisplay(e){
     displayArea.textContent=displayArea.textContent + e.target.value;    
-    if(numOne != null && currentOperator != null && numTwo==null){
+    if(currentOperator != null && onSecond){
         displayArea.textContent=null;
-        temp= temp +displayArea.textContent + e.target.value;
-        console.log(temp);
-        displayArea.textContent=temp;
+        tempDisplay= tempDisplay +displayArea.textContent + e.target.value;
+        console.log(tempDisplay);
+        displayArea.textContent=tempDisplay;
+        console.log("In update: " +numTwo);
     }
 }
 
 numberButtons.forEach(num=> num.addEventListener('click',updateDisplay));
 
-
+let tempSymbol="";
 function setOperands(e){
+    
     if(e.target.id != "equal"){
         currentOperator = e.target.id;
+        
+        tempSymbol=e.target.value;
     }
-    if(numOne==null){
-        if(isNaN(parseInt(displayArea.textContent))){
-            numOne=0;
-        } else {
-        numOne = parseInt(displayArea.textContent);
-        }
-        // displayArea.textContent=null;
+    console.log("At Start: " +numTwo);
+    if(currentOperator!=null){
+        
+        if(numOne==null){
+            if(isNaN(parseInt(displayArea.textContent))){
+                numOne=0;
+            } else {
+            numOne = parseInt(displayArea.textContent);
+            }
+            onSecond=true;
+            return;
+    } else if(onSecond ){    
+        numTwo= parseInt(displayArea.textContent);
+       
+        console.log("At mid " +numTwo);
+    } 
+
+    if(!onSecond){
+        onSecond=true;
         return;
     }
-    if(numTwo==null){     
-
-        numTwo= parseInt(displayArea.textContent);
-        displayArea.textContent=null;
-    }
-
-    // console.log(!isNaN(numTwo));
+let tempHistory="";
+console.log(numOne +":"+numTwo);
 
     if(!isNaN(numOne) && !isNaN(numTwo)){
-       console.log(numOne+ ":" + numTwo);
-        //console.log(e.target.id);
-        console.log(currentOperator);
+
         result = operate(window[currentOperator],numOne,numTwo);
         displayArea.textContent=result;
-
+        displayHistory.textContent=null;
+        tempHistory= result;
+        displayHistory.textContent= tempHistory;
         numOne=parseInt(result);
         numTwo=null;
         result=null;
-        // console.log(result);
+        currentOperator=null;
+        onSecond=false;
+        tempDisplay="";
+
     }
+}
+
 }
 operatorButtons.forEach(operator => operator.addEventListener('click', setOperands));
 
