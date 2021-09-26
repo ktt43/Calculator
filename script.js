@@ -61,13 +61,19 @@ clearButton.addEventListener('click',clearAll);
 let tempDisplay="";
 // When Clicking ON Numbers; Updates the Display Area
 function updateDisplay(e){
-    displayArea.textContent=displayArea.textContent + e.target.value;    
+    displayArea.textContent=displayArea.textContent + e.target.value;  
+    console.log(onSecond +":"+ currentOperator+":"+numTwo+":"+numOne);  
     if(currentOperator != null && onSecond){
         displayArea.textContent=null;
         tempDisplay= tempDisplay +displayArea.textContent + e.target.value;
         console.log(tempDisplay);
         displayArea.textContent=tempDisplay;
-        console.log("In update: " +numTwo);
+    } else
+    if(!onSecond && currentOperator==null && numTwo==null && numOne !=null){
+        displayArea.textContent=null;
+        tempDisplay= tempDisplay +displayArea.textContent + e.target.value;
+        displayArea.textContent=tempDisplay;
+       
     }
 }
 
@@ -75,13 +81,17 @@ numberButtons.forEach(num=> num.addEventListener('click',updateDisplay));
 
 let tempSymbol="";
 function setOperands(e){
+
+    if(!onSecond && currentOperator==null && numTwo==null && numOne !=null){
+        onSecond=true;
+    }
     
     if(e.target.id != "equal"){
         currentOperator = e.target.id;
         
         tempSymbol=e.target.value;
     }
-    console.log("At Start: " +numTwo);
+
     if(currentOperator!=null){
         
         if(numOne==null){
@@ -94,8 +104,7 @@ function setOperands(e){
             return;
     } else if(onSecond ){    
         numTwo= parseInt(displayArea.textContent);
-       
-        console.log("At mid " +numTwo);
+        console.log(numTwo);
     } 
 
     if(!onSecond){
